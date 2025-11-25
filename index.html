@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Laboratorium Elektronika & Instrumentasi</title>
+  <style>
+    :root{
+      --bg-blue:#3b82f6; /* default blue */
+      --bg-pink:#f9a8d4;
+      --bg-yellow:#fef08a;
+      --bg-green:#86efac;
+      --bg-white:#ffffff;
+      --bg-red:#fb7185;
+      --bg-darkblue:#1e3a8a;
+      --text-color:#0b1220;
+    }
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:var(--text-color)}
+    body{display:flex;min-height:100vh;background:var(--bg-blue);transition:background 300ms ease}
+    .container{display:flex;flex:1}
+    nav{width:300px;max-width:40vw;background:rgba(255,255,255,0.06);backdrop-filter:blur(4px);padding:24px;box-sizing:border-box}
+    nav h1{font-size:18px;margin:0 0 12px}
+    .menu{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+    .menu button{background:rgba(255,255,255,0.12);border:0;padding:12px 14px;text-align:left;border-radius:10px;cursor:pointer;font-weight:600}
+    .menu button:hover{transform:translateY(-2px)}
+    main{flex:1;padding:28px;box-sizing:border-box;overflow:auto}
+    .card{background:rgba(255,255,255,0.9);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(11,18,32,0.12);max-width:1000px}
+    h2{margin-top:0}
+    pre{white-space:pre-wrap;font-family:inherit}
+    /* small screens */
+    @media (max-width:700px){nav{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);transition:transform 240ms;z-index:10}nav.open{transform:translateX(0)}.hamburger{display:inline-block} .container{flex-direction:column} }
+    .hamburger{display:none;position:fixed;left:10px;top:10px;background:rgba(255,255,255,0.9);border:0;padding:8px;border-radius:8px;cursor:pointer;z-index:20}
+    .note{font-size:13px;color:#334155;margin-top:8px}
+    .editable{border:2px dashed rgba(0,0,0,0.06);padding:10px;border-radius:8px;min-height:120px}
+    footer{margin-top:12px;font-size:13px;color:#374151}
+  </style>
+</head>
+<body>
+  <button class="hamburger" aria-label="open menu">☰</button>
+  <div class="container">
+    <nav id="nav">
+      <h1>Laboratorium Elektronika</h1>
+      <ul class="menu">
+        <li><button data-section="pengenalan">Pengenalan Laboratorium</button></li>
+        <li><button data-section="peserta2023">Peserta Lab 2023</button></li>
+        <li><button data-section="tugasakhir">Tugas Akhir Senior</button></li>
+        <li><button data-section="dosen">Dosen Laboratorium</button></li>
+        <li><button data-section="peserta2022">Peserta Lab 2022</button></li>
+        <li><button data-section="matakuliah">Mata Kuliah Laboratorium</button></li>
+        <li><button data-section="informasi">Informasi Umum</button></li>
+      </ul>
+      <p class="note">Klik menu untuk ganti bagian. Informasi umum bersifat dapat diedit oleh siapa pun.</p>
+    </nav>
+
+    <main>
+      <div class="card" id="content">
+        <h2>Selamat datang di Laboratorium Elektronika & Instrumentasi</h2>
+        <p>Buka salah satu bagian di menu untuk melihat isi dan mengganti warna tampilan sesuai instruksi.</p>
+        <footer>Halaman dibuat untuk demonstrasi. Buka <strong>Informasi Umum</strong> untuk mengedit teks dan menyimpannya secara lokal.</footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // content data
+    const DATA = {
+      pengenalan: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bg-pink').trim() || '#f9a8d4',
+        title: 'Pengenalan Laboratorium',
+        html: `
+        <h2>Pengenalan Laboratorium</h2>
+        <p>Laboratorium Elektronika dan Instrumentasi adalah fasilitas praktik yang digunakan untuk mempelajari berbagai konsep dasar dan terapan dalam bidang elektronika, pengukuran, serta sistem instrumentasi. Di laboratorium ini mahasiswa dibimbing untuk memahami cara kerja komponen elektronik, merancang rangkaian, serta menganalisis sinyal yang dihasilkan. Selain itu, mahasiswa juga dilatih untuk mengoperasikan berbagai instrumen ukur secara benar dan aman, sehingga mampu memperoleh data pengukuran yang akurat dan dapat dipertanggungjawabkan.</p>
+
+        <p>Tujuan utama pembelajaran di laboratorium ini adalah memberikan pemahaman mendalam mengenai prinsip-prinsip dasar elektronika, seperti penggunaan resistor, kapasitor, transistor, maupun rangkaian operasional amplifier. Mahasiswa juga diajarkan bagaimana membaca dan menggambar rangkaian listrik, melakukan perakitan menggunakan breadboard atau PCB, serta memanfaatkan perangkat lunak simulasi. Pada bidang instrumentasi, praktikan diperkenalkan dengan berbagai sensor seperti sensor suhu, cahaya, jarak, tekanan, dan kelembapan, serta memahami bagaimana sinyal dari sensor tersebut diproses dan diolah menjadi informasi yang berguna.</p>
+
+        <p>Peralatan yang digunakan di laboratorium sangat beragam, mulai dari multimeter untuk pengukuran tegangan, arus, dan resistansi, osiloskop untuk melihat bentuk gelombang, hingga function generator sebagai sumber sinyal. Selain itu terdapat juga power supply DC, solder, LCR meter, breadboard, serta berbagai komponen elektronik. Pada sisi pemrograman dan kontrol, mahasiswa juga mempelajari penggunaan mikrokontroler seperti Arduino atau ESP32 untuk mengintegrasikan sensor dan aktuator dalam suatu sistem instrumentasi.</p>
+
+        <p>Dalam kegiatan laboratorium, aspek keselamatan kerja (K3) menjadi hal penting yang harus selalu dipatuhi. Mahasiswa diwajibkan memastikan rangkaian dalam kondisi mati sebelum disambungkan ke sumber tegangan, tidak menyentuh kabel bertegangan terbuka, serta menggunakan alat pelindung seperti kacamata ketika menyolder. Ketertiban dan kehati-hatian sangat diperlukan untuk mencegah kerusakan alat maupun kecelakaan kerja.</p>
+
+        <p>Secara keseluruhan, melalui kegiatan di Laboratorium Elektronika dan Instrumentasi, mahasiswa diharapkan mampu merancang, merakit, dan menganalisis rangkaian elektronika serta memahami teknik pengukuran dan pengolahan sinyal. Mahasiswa juga diharapkan dapat mengintegrasikan sensor, aktuator, dan mikrokontroler dalam suatu sistem yang berfungsi dengan baik, sehingga memiliki kompetensi praktis yang kuat dalam bidang elektronika dan instrumentasi.</p>
+        `
+      },
+      peserta2023: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bg-yellow').trim() || '#fef08a',
+        title:'Peserta Lab 2023',
+        html:`<h2>Peserta Lab 2023</h2>
+        <pre>
+Ruth Lebang (H021231005)
+Dandi Hartono (H021231007)
+Nur Alik Katu (H021231041)
+Ansar Mubaroq (H021231043)
+Muh Asnawi (H021231027)
+Sri Wahyuni SM (H021231053)
+Juliyati Puspita Sari (H021231052)
+Nur Amalia (H021231067)
+Ulva Asriani Nur (H021231037)
+Febrinesya Alfa Tandi Lion (H021231063)
+Miswanja Batu Padang (H021231004)
+Taskiyatunnaps (H021231055)
+        </pre>`
+      },
+      tugasakhir: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bg-green').trim() || '#86efac',
+        title:'Tugas Akhir Senior',
+        html:<h2>Tugas Akhir Senior</h2><ul><li>IoT</li><li>Superkapasitor</li></ul>
+      },
+      dosen: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bg-white').trim() || '#ffffff',
+        title:'Dosen Laboratorium',
+        html:`<h2>Dosen Laboratorium</h2>
+        <pre>
+Prof. Dr. Ir. Bidayatul Armynah, M.T
+Prof. Dr. Arifin, M.T
+Prof. Dr. Bualkar Abdullah, M.Eng.Sc.
+Ida Laila, S.Si., M.Si
+        </pre>`
+      },
+      peserta2022: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bg-yellow').trim() || '#fef08a',
+        title:'Peserta Lab 2022',
+        html:`<h2>Peserta Lab 2022</h2>
+        <pre>
+Ahmad Aksa [H021221080]
+Andi Muh. Iksha [H021221013]
+Arninda Alam	[H021221061]
+Ata Sarungallo	[H021221031]
+Daniel Fortunatus [H021221046]
+Dewi Risma Saputri	[H021221040]
+Dwiki Darmawan	[H021221079]
+Meisy Geni	[H021221049]
+Muh. Alyad Djufri	[H021221026]
+Muhajir	[H021221007]
+Mutiara Tsani Ramadhani	[H021221027]
+Nelvi Pirrin Patintingan	[H021221022]
+Reni Andriani	[H021221062]
+Reskiyani Fitri	[H021221009]
+        </pre>`
+      },
+      matakuliah: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bg-red').trim() || '#fb7185',
+        title:'Mata Kuliah Laboratorium',
+        html:`<h2>Beberapa Mata Kuliah Laboratorium</h2>
+        <ul>
+          <li>Instrumentasi Medik</li>
+          <li>System Sensor</li>
+          <li>Mikrokontroler</li>
+          <li>Mikroprosesor</li>
+          <li>Pratikum Mikrokontroler</li>
+          <li>Pratikum Mikroprosesor</li>
+          <li>Pratikum Mikrokontroler</li>
+           <li>Elektronika Fisis 1</li>
+            <li>Elektronika Fisis 2</li>
+             <li>Elektronika Digital</li>
+              <li>Sistem Instrumentasi</li>
+        </ul>`
+      },
+      informasi: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bg-darkblue').trim() || '#1e3a8a',
+        title:'Informasi Umum',
+        html: localStorage.getItem('informasi_content') || <h2>Informasi Umum</h2><div class="editable" contenteditable="true">Tulis informasi umum di sini. Siapa pun bisa mengedit teks ini. Klik untuk mengubah, lalu tekan tombol "Simpan Informasi".</div><div style="margin-top:10px"><button id="saveInfo">Simpan Informasi</button> <button id="resetInfo">Reset ke default</button></div>
+      }
+    };
+
+    const contentEl = document.getElementById('content');
+    const nav = document.getElementById('nav');
+
+    function setSection(key){
+      const sec = DATA[key];
+      if(!sec) return;
+      // set background color
+      document.body.style.background = sec.color;
+      // set content
+      contentEl.innerHTML = sec.html;
+
+      // if informasi: wire up save
+      if(key === 'informasi'){
+        const saveBtn = document.getElementById('saveInfo');
+        const resetBtn = document.getElementById('resetInfo');
+        if(saveBtn){
+          saveBtn.addEventListener('click', ()=>{
+            const editable = contentEl.querySelector('.editable');
+            if(editable){
+              localStorage.setItem('informasi_content', <h2>Informasi Umum</h2> + editable.outerHTML);
+              alert('Informasi disimpan ke penyimpanan lokal browser.');
+            }
+          });
+        }
+        if(resetBtn){
+          resetBtn.addEventListener('click', ()=>{
+            localStorage.removeItem('informasi_content');
+            DATA.informasi.html = <h2>Informasi Umum</h2><div class="editable" contenteditable="true">Tulis informasi umum di sini. Siapa pun bisa mengedit teks ini. Klik untuk mengubah, lalu tekan tombol \"Simpan Informasi\".</div><div style=\"margin-top:10px\"><button id=\"saveInfo\">Simpan Informasi</button> <button id=\"resetInfo\">Reset ke default</button></div>;
+            setSection('informasi');
+          });
+        }
+      }
+    }
+
+    // attach menu handlers
+    document.querySelectorAll('nav .menu button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const key = btn.dataset.section;
+        setSection(key);
+        // for small screens close menu
+        document.querySelector('.hamburger').classList.remove('active');
+        nav.classList.remove('open');
+      });
+    });
+
+    // hamburger for mobile
+    const hamburger = document.querySelector('.hamburger');
+    hamburger.addEventListener('click', ()=>{
+      nav.classList.toggle('open');
+    });
+
+    // default is home (blue) already set
+    // allow deep-link with hash
+    const hash = location.hash.replace('#','');
+    if(hash && DATA[hash]){
+      setSection(hash);
+    }
+
+    // add keyboard shortcut: numbers 1-7 select menu
+    window.addEventListener('keydown', (e)=>{
+      if(e.key>='1' && e.key<='7'){
+        const keys = ['pengenalan','peserta2023','tugasakhir','dosen','peserta2022','matakuliah','informasi'];
+        const idx = parseInt(e.key,10)-1;
+        setSection(keys[idx]);
+      }
+    });
+
+  </script>
+</body>
+</html>
